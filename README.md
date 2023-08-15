@@ -6,6 +6,9 @@
 <h1 align="center">BergsExtraBossPack</h1>
 
 This mod adds new bosses[with updates i will release more] to the Game.Boss Also every Boss have his custom Sounds so turn them on.
+Actually this Mod have this Bosses:
+
+Bador the Rocket
 
 [Requires Boss Integration](https://github.com/WarperSan/BossIntegration/releases/latest/download/BossIntegration.dll)
 [![Requires BTD6 Mod Helper](https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/banner.png)](https://github.com/gurrenm3/BTD-Mod-Helper#readme)

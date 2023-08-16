@@ -60,7 +60,7 @@ internal class BadorBoss : ModBoss
             float angle = BossPack.rng.Next(0, 360) * Math.PI / 180;
             towers[BossPack.rng.Next(0, towers.Count)].MoveTower(new Il2CppAssets.Scripts.Simulation.SMath.Vector2(Math.Cos(angle) * amount, Math.Sin(angle) * amount));
         }
-        ModHelper.Msg<BergsExtraBossPackMOD>(tier);
+
         if (tier == 1)
         {
             InGame.instance.SpawnBloons("Moab", 1, 10);

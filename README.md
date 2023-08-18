@@ -10,6 +10,8 @@ Actually this Mod have this Bosses:
 
 Bador the Rocket
 
+Punji the Businessman
+
 <h1 aling="left"><img alt="GitHub all releases" height="25" src="https://img.shields.io/github/downloads/Bergbauer22/BergsExtraBossPack/total?label=Total%20Dowloads"></h1>
 
 [Requires Boss Integration](https://github.com/WarperSan/BossIntegration/releases/latest/download/BossIntegration.dll)

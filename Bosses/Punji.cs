@@ -188,7 +188,7 @@ internal class PunjiBoss : ModBoss
         }
         else if (x == 11)
         {
-            ModContent.GetAudioClip<BergsExtraBossPackMOD>("idkw_but_isab_is_kinda_hot").Play();
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("punjihi").Play();
         }
         else if (x == 12)
         {
@@ -200,7 +200,7 @@ internal class PunjiBoss : ModBoss
         }
         else if (x == 14)
         {
-            ModContent.GetAudioClip<BergsExtraBossPackMOD>("idkw_but_isab_is_kinda_hot").Play();
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("punjihi").Play();
         }
         else if (x == 15)
         {

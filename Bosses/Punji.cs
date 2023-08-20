@@ -28,6 +28,7 @@ internal class PunjiBoss : ModBoss
     public override string DisplayName => "Punji the Businessman";
     public override string Icon => "Punji-Icon";
     public override string Description => "\"He's an gigantic Moneymaster\"";
+    public override string ExtraCredits => "Sounds by Punji BTD6";
     public override IEnumerable<string> DamageStates => new string[] { };
     public class PunjiDisplay : ModBloonDisplay<PunjiBoss>
     {
@@ -39,7 +40,7 @@ internal class PunjiBoss : ModBoss
             Set2DTexture(node, "PunniBoss");
         }
     }
-    public override string TimerDescription => "Removes for each Tower you have 5% of your Max Cash and if your Cash is under your TowerCount multiplied with 1000$ and also multiplied with the BossTier squared(^2) the Boss regains his hole Live";
+    public override string TimerDescription => "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 750$ and also multiplied with the BossTier squared(^2) the Boss regains his hole Live";
     public override void TimerTick(Bloon boss)
     {
         List<Tower> towers = InGame.instance.GetTowers();
@@ -50,14 +51,15 @@ internal class PunjiBoss : ModBoss
         boss.bloonModel.maxHealth :
         boss.health + boss.bloonModel.maxHealth * 0.003f;
         //SpecialEnd
-        if (cash < towers.Count*1000*(tier*tier))
+
+        if (cash < towers.Count*750*(tier*tier))
         {
             boss.health = boss.bloonModel.maxHealth;
             ModContent.GetAudioClip<BergsExtraBossPackMOD>("I_healed_up").Play();
         }
         else
         {
-            InGame.instance.bridge.SetCash(cash *(1-towers.Count * 0.05));
+            InGame.instance.bridge.SetCash(cash *(1-towers.Count * 0.03));
         }
 
         if (tier == 1)
@@ -77,9 +79,10 @@ internal class PunjiBoss : ModBoss
         }
 
     }
-    public override string SkullDescription => "Sells 10% of your Tower Count multiplied with the actual BossTier on Random Towers for their half worth | Spawn for every Tower you have one T1:Moab T2:Bfb T3:Ddt T4:Zomg T5:Bad";
+    public override string SkullDescription => "Sells 10% of your Tower Count multiplied with the actual BossTier on Random Towers for 75% of their worth | Spawn for every Tower you have one T1:Moab T2:Bfb T3:Ddt T4:Zomg T5:Bad";
     public override void SkullEffect(Bloon boss)
     {
+
         uint? tier = ModBoss.GetTier(boss);
         if (tier != null)
         {
@@ -111,7 +114,7 @@ internal class PunjiBoss : ModBoss
                 Tower tower = InGame.instance.GetTowers()[BossPack.rng.Next(0, InGame.instance.GetTowers().Count)];
                 if (tower != null)
                 {
-                    tower.worth /= 2;
+                    tower.worth /= 1.25f;
                     InGame.instance.SellTower(tower);
                 }
             }
@@ -121,14 +124,35 @@ internal class PunjiBoss : ModBoss
 
 
         //Sound
-        int x = BossPack.rng.Next(1, 7);
+        int x = BossPack.rng.Next(1, 60);
+        if (boss.health < boss.bloonModel.maxHealth / 7.5 || boss.isDestroyed)
+        {
+            x = 0;
+            int z = BossPack.rng.Next(1, 4);
+            if (z == 1)
+            {
+                ModContent.GetAudioClip<BergsExtraBossPackMOD>("GameCrasht").Play();
+            }
+            else if (z == 2)
+            {
+                ModContent.GetAudioClip<BergsExtraBossPackMOD>("Ich_bin_schon_wieder_tod_nein").Play();
+            }
+            else if (z == 3)
+            {
+                ModContent.GetAudioClip<BergsExtraBossPackMOD>("ichsterbeschonwieder").Play();
+            }
+            else if (z == 4)
+            {
+                ModContent.GetAudioClip<BergsExtraBossPackMOD>("oh_my_god_i_am_dead").Play();
+            }
+        }
         if (x == 1)
         {
             ModContent.GetAudioClip<BergsExtraBossPackMOD>("HeuteSchlagIchBador").Play();
         }
         else if (x == 2)
         {
-            ModContent.GetAudioClip<BergsExtraBossPackMOD>("ichsterbeschonwieder").Play();
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("Nein").Play();
         }
         else if (x == 3)
         {
@@ -158,6 +182,38 @@ internal class PunjiBoss : ModBoss
         {
             ModContent.GetAudioClip<BergsExtraBossPackMOD>("GameCrasht").Play();
         }
+        else if (x == 10)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("of_course_I_talk_to_myself").Play();
+        }
+        else if (x == 11)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("idkw_but_isab_is_kinda_hot").Play();
+        }
+        else if (x == 12)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("of_course_I_talk_to_myself").Play();
+        }
+        else if (x == 13)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("Nein").Play();
+        }
+        else if (x == 14)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("idkw_but_isab_is_kinda_hot").Play();
+        }
+        else if (x == 15)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("I_bet_you_forgot_to_overclock").Play();
+        }
+        else if (x == 16)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("ganz_im_ernst_ich_mag_bador").Play();
+        }
+        else if (x == 17)
+        {
+            ModContent.GetAudioClip<BergsExtraBossPackMOD>("deutschland_1_du_0").Play();
+        }
         boss.AddMutator(new SpeedUpMutator("PunjiDash", -3f), 150);
 
     }
@@ -168,35 +224,35 @@ internal class PunjiBoss : ModBoss
             skullCount = 8,
             interval = 30,
             tier = 1,
-            timerDescription = "Removes for each Tower you have 5% of your Max Cash and if your Cash is under your TowerCount multiplied with 1000$ the Boss regains his hole Live",
+            timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 750$ the Boss regains his hole Live",
         },
         [60] = new BossRoundInfo()
         {
             skullCount = 8,
             interval = 30,
             tier = 2,
-            timerDescription = "Removes for each Tower you have 5% of your Max Cash and if your Cash is under your TowerCount multiplied with 4000$ the Boss regains his hole Live",
+            timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 3000$ the Boss regains his hole Live",
         },
         [80] = new BossRoundInfo()
         {
             skullCount = 8,
             interval = 30,
             tier = 3,
-            timerDescription = "Removes for each Tower you have 5% of your Max Cash and if your Cash is under your TowerCount multiplied with 9000$ the Boss regains his hole Live",
+            timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 67500$ the Boss regains his hole Live",
         },
         [100] = new BossRoundInfo()
         {
             skullCount = 8,
             interval = 30,
             tier = 4,
-            timerDescription = "Removes for each Tower you have 5 % of your Max Cash and if your Cash is under your TowerCount multiplied with 16000$ the Boss regains his hole Live",
+            timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 12000$ the Boss regains his hole Live",
         },
         [120] = new BossRoundInfo()
         {
             skullCount = 8,
             interval = 30,
             tier = 5,
-            timerDescription = "Removes for each Tower you have 5% of your Max Cash and if your Cash is under your TowerCount multiplied with 25000$ the Boss regains his hole Live",
+            timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 187500$ the Boss regains his hole Live",
         },
     };
     public override BloonModel ModifyForRound(BloonModel bloon, int round)
@@ -207,29 +263,169 @@ internal class PunjiBoss : ModBoss
             {
 
                 case 1:
-                    bloon.maxHealth = 100_000;
+                    bloon.maxHealth = 75_000;
                     bloon.speed = 3;
-                    ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    int y = BossPack.rng.Next(1, 7);
+                    if (y == 1)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y == 2)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hey_Guys").Play();
+                    }
+                    else if (y == 3)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
+                    else if (y == 4)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y == 5)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hey_Guys").Play();
+                    }
+                    else if (y == 6)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
+                    else if (y == 7)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
                     break;
                 case 2:
-                    bloon.maxHealth = 500_000;
+                    bloon.maxHealth = 375_000;
                     bloon.speed = 3.05f;
-                    ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    int y2 = BossPack.rng.Next(1, 7);
+                    if (y2 == 1)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y2 == 2)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("och_no_du_schon_wieder").Play();
+                    }
+                    else if (y2 == 3)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
+                    else if (y2 == 4)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
+                    else if (y2 == 5)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hey_Guys").Play();
+                    }
+                    else if (y2 == 6)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("och_no_du_schon_wieder").Play();
+                    }
+                    else if (y2 == 7)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
                     break;
                 case 3:
-                    bloon.maxHealth = 1_000_000;
+                    bloon.maxHealth = 750_000;
                     bloon.speed = 3.1f;
-                    ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    int y3 = BossPack.rng.Next(1, 7);
+                    if (y3 == 1)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y3 == 2)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
+                    else if (y3 == 3)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
+                    else if (y3 == 4)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y3 == 5)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hey_Guys").Play();
+                    }
+                    else if (y3 == 6)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("och_no_du_schon_wieder").Play();
+                    }
+                    else if (y3 == 7)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
                     break;
                 case 4:
-                    bloon.maxHealth = 5_000_000;
+                    bloon.maxHealth = 3_750_000;
                     bloon.speed = 3.15f;
-                    ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    int y4 = BossPack.rng.Next(1, 7);
+                    if (y4 == 1)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y4 == 2)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("och_no_du_schon_wiede").Play();
+                    }
+                    else if (y4 == 3)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
+                    else if (y4 == 4)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
+                    else if (y4 == 5)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hey_Guys").Play();
+                    }
+                    else if (y4 == 6)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("och_no_du_schon_wieder").Play();
+                    }
+                    else if (y4 == 7)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
                     break;
                 case 5:
-                    bloon.maxHealth = 25_000_000;
+                    bloon.maxHealth = 20_000_000;
                     bloon.speed = 3.2f;
-                    ModContent.GetAudioClip<BergsExtraBossPackMOD>("HeuteSchlagIchBador").Play();
+                    int y5 = BossPack.rng.Next(1, 7);
+                    if (y5 == 1)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hello").Play();
+                    }
+                    else if (y5 == 2)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("einletztesmal").Play();
+                    }
+                    else if (y5 == 3)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Halloooooo").Play();
+                    }
+                    else if (y5 == 4)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("einletztesmal").Play();
+                    }
+                    else if (y5 == 5)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("Hey_Guys").Play();
+                    }
+                    else if (y5 == 6)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("och_no_du_schon_wieder").Play();
+                    }
+                    else if (y5 == 7)
+                    {
+                        ModContent.GetAudioClip<BergsExtraBossPackMOD>("da_bin_ich_wieder").Play();
+                    }
                     break;
                 default:
                     break;

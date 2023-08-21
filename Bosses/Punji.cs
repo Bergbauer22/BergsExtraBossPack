@@ -109,12 +109,25 @@ internal class PunjiBoss : ModBoss
                 InGame.instance.SpawnBloons("Bad", InGame.instance.GetTowers().Count+3, 2);
             }
             int oldCount = InGame.instance.GetTowers().Count;
-            for (int i = 0;i < (oldCount * (0.2 * tier)); i++)
+            List<int> checkedIndexes = new List<int>();
+            for (int i = 0; i < (oldCount * (0.2 * tier)); i++)
             {
-                Tower tower = InGame.instance.GetTowers()[BossPack.rng.Next(0, InGame.instance.GetTowers().Count)];
+                int towerIndex;
+                while (true)
+                {
+                    towerIndex = BossPack.rng.Next(0, InGame.instance.GetTowers().Count);
+                    if (checkedIndexes.Contains(towerIndex))
+                    {
+                        continue;
+                    }
+
+                    break;
+                }
+                checkedIndexes.Add(towerIndex);
+                Tower tower = InGame.instance.GetTowers()[towerIndex];
                 if (tower != null)
                 {
-                    tower.worth /= 1.25f;
+                    tower.worth *= 0.75f;
                     InGame.instance.SellTower(tower);
                 }
             }

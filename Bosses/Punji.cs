@@ -59,7 +59,13 @@ internal class PunjiBoss : ModBoss
         }
         else
         {
-            InGame.instance.bridge.SetCash(cash *(1-towers.Count * 0.03));
+            double newCash;
+            newCash = cash * (1 - towers.Count * 0.03);
+            if (newCash > 0)
+            {
+                newCash = 0;
+            }
+            InGame.instance.bridge.SetCash(newCash);
         }
 
         if (tier == 1)

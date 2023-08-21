@@ -61,7 +61,7 @@ internal class PunjiBoss : ModBoss
         {
             double newCash;
             newCash = cash * (1 - towers.Count * 0.03);
-            if (newCash > 0)
+            if (newCash < 0)
             {
                 newCash = 0;
             }

@@ -49,9 +49,10 @@ internal class BadorBoss : ModBoss
 
         float amount = 1f;
         //Special
-        boss.health = boss.health + boss.bloonModel.maxHealth * 0.0003f + 1500 > boss.bloonModel.maxHealth ?
-        boss.bloonModel.maxHealth :
-        boss.health + boss.bloonModel.maxHealth * 0.001f;
+        float gain = 0.0010f;
+        boss.health = (int)(boss.health + boss.bloonModel.maxHealth * gain > boss.bloonModel.maxHealth ?
+            boss.bloonModel.maxHealth :
+            boss.health + boss.bloonModel.maxHealth * gain);
         //SpecialEnd
         if (tier != null)
             amount = (float)tier * 5;

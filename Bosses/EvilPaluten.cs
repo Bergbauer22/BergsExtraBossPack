@@ -21,19 +21,20 @@ using static BergsExtraBossPack.BergsExtraBossPackMOD;
 using static Il2CppAssets.Scripts.Models.Bloons.Behaviors.StunTowersInRadiusActionModel;
 
 namespace BossPackReborn.Bosses;
-
-internal class PunjiBoss : ModBoss
+/*
+internal class EviLPalutenBoss : ModBoss
 {
     protected override int Order => 1;
-    public override string DisplayName => "Punji the Businessman";
-    public override string Icon => "Punji-Icon";
-    public override string Description => "\"He's an gigantic Moneymaster\"";
-    public override string ExtraCredits => "Sounds by Punji BTD6";
+    public override string DisplayName => "Evil Paluten God";
+    public override string Icon => "EvilPaluten-Icon";
+    public override string Description => "\"He doesn't play God....He is a God\"";
+    public override string ExtraCredits => "Sounds were made by Paluten";
     public override IEnumerable<string> DamageStates => new string[] { };
-    public class PunjiDisplay : ModBloonDisplay<PunjiBoss>
+    public class EvilPalutenDisplay : ModBloonDisplay<EviLPalutenBoss>
     {
-        public override string BaseDisplay => ModDisplay.Generic2dDisplay;
-        public PunjiDisplay() { }
+       
+        public override float Scale => 1f;
+        public EvilPalutenDisplay() { }
 
         public override void ModifyDisplayNode(UnityDisplayNode node)
         {
@@ -52,7 +53,7 @@ internal class PunjiBoss : ModBoss
         boss.health + boss.bloonModel.maxHealth * 0.003f);
         //SpecialEnd
 
-        if (cash < towers.Count*750*(tier*tier))
+        if (cash < towers.Count * 750 * (tier * tier))
         {
             boss.health = boss.bloonModel.maxHealth;
             ModContent.GetAudioClip<BergsExtraBossPackMOD>("I_healed_up").Play();
@@ -94,25 +95,25 @@ internal class PunjiBoss : ModBoss
         {
             if (tier == 1)
             {
-                InGame.instance.SpawnBloons("Moab", InGame.instance.GetTowers().Count, 8);
+                InGame.instance.SpawnBloons("Moab", InGame.instance.GetTowers().Count, 2);
             }
             else if (tier == 2)
             {
-                InGame.instance.SpawnBloons("Bfb", InGame.instance.GetTowers().Count, 8);
+                InGame.instance.SpawnBloons("Bfb", InGame.instance.GetTowers().Count, 2);
             }
             else if (tier == 3)
             {
 
-                InGame.instance.SpawnBloons("Ddt", InGame.instance.GetTowers().Count, 8);
+                InGame.instance.SpawnBloons("Ddt", InGame.instance.GetTowers().Count, 2);
             }
             else if (tier == 4)
             {
-                InGame.instance.SpawnBloons("Zomg", InGame.instance.GetTowers().Count, 8);
+                InGame.instance.SpawnBloons("Zomg", InGame.instance.GetTowers().Count, 2);
 
             }
             else if (tier == 5)
             {
-                InGame.instance.SpawnBloons("Bad", InGame.instance.GetTowers().Count+3, 8);
+                InGame.instance.SpawnBloons("Bad", InGame.instance.GetTowers().Count + 3, 2);
             }
             int oldCount = InGame.instance.GetTowers().Count;
             List<int> checkedIndexes = new List<int>();
@@ -143,7 +144,7 @@ internal class PunjiBoss : ModBoss
 
 
         //Sound
-        int x = BossPack.rng.Next(1, 17);
+        int x = BossPack.rng.Next(1, 60);
         if (boss.health < boss.bloonModel.maxHealth / 7.5 || boss.isDestroyed)
         {
             x = 0;
@@ -233,44 +234,49 @@ internal class PunjiBoss : ModBoss
         {
             ModContent.GetAudioClip<BergsExtraBossPackMOD>("deutschland_1_du_0").Play();
         }
-        boss.AddMutator(new SpeedUpMutator("PunjiDash", -3f), 150);
+        boss.AddMutator(new SpeedUpMutator("PalutenDash", 3f), 150);
 
     }
     public override Dictionary<int, BossRoundInfo> RoundsInfo => new Dictionary<int, BossRoundInfo>()
     {
         [40] = new BossRoundInfo()
         {
-            skullCount = 8,
-            interval = 30,
+            skullCount = 1,
+            interval = 3,
             tier = 1,
+            preventFallThrough = true,
             timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 750$ the Boss regains his hole Live",
         },
         [60] = new BossRoundInfo()
         {
-            skullCount = 8,
-            interval = 30,
+            skullCount = 2,
+            interval = 3,
             tier = 2,
+            preventFallThrough = true,
             timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 3000$ the Boss regains his hole Live",
         },
         [80] = new BossRoundInfo()
         {
-            skullCount = 8,
-            interval = 30,
+            skullCount = 4,
+            interval = 3,
             tier = 3,
+            preventFallThrough = true,
             timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 67500$ the Boss regains his hole Live",
         },
         [100] = new BossRoundInfo()
         {
             skullCount = 8,
-            interval = 30,
+            interval = 3,
             tier = 4,
+            preventFallThrough = true,
             timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 12000$ the Boss regains his hole Live",
         },
         [120] = new BossRoundInfo()
         {
-            skullCount = 8,
-            interval = 30,
+            skullCount = 16,
+            interval = 3,
             tier = 5,
+            preventFallThrough = true,
             timerDescription = "Removes for each Tower you have 3% of your Max Cash and if your Cash is under your TowerCount multiplied with 187500$ the Boss regains his hole Live",
         },
     };
@@ -282,8 +288,8 @@ internal class PunjiBoss : ModBoss
             {
 
                 case 1:
-                    bloon.maxHealth = 75_000;
-                    bloon.speed = 3;
+                    bloon.maxHealth = 100_000;
+                    bloon.speed = 1;
                     int y = BossPack.rng.Next(1, 7);
                     if (y == 1)
                     {
@@ -315,8 +321,8 @@ internal class PunjiBoss : ModBoss
                     }
                     break;
                 case 2:
-                    bloon.maxHealth = 375_000;
-                    bloon.speed = 3.05f;
+                    bloon.maxHealth = 500_000;
+                    bloon.speed = 1.05f;
                     int y2 = BossPack.rng.Next(1, 7);
                     if (y2 == 1)
                     {
@@ -348,8 +354,8 @@ internal class PunjiBoss : ModBoss
                     }
                     break;
                 case 3:
-                    bloon.maxHealth = 750_000;
-                    bloon.speed = 3.1f;
+                    bloon.maxHealth = 2_000_000;
+                    bloon.speed = 1.1f;
                     int y3 = BossPack.rng.Next(1, 7);
                     if (y3 == 1)
                     {
@@ -381,8 +387,8 @@ internal class PunjiBoss : ModBoss
                     }
                     break;
                 case 4:
-                    bloon.maxHealth = 3_750_000;
-                    bloon.speed = 3.15f;
+                    bloon.maxHealth = 7_500_000;
+                    bloon.speed = 1.15f;
                     int y4 = BossPack.rng.Next(1, 7);
                     if (y4 == 1)
                     {
@@ -414,8 +420,8 @@ internal class PunjiBoss : ModBoss
                     }
                     break;
                 case 5:
-                    bloon.maxHealth = 20_000_000;
-                    bloon.speed = 3.2f;
+                    bloon.maxHealth = 30_000_000;
+                    bloon.speed = 1.2f;
                     int y5 = BossPack.rng.Next(1, 7);
                     if (y5 == 1)
                     {
@@ -454,3 +460,4 @@ internal class PunjiBoss : ModBoss
         return bloon;
     }
 }
+ */

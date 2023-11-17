@@ -1,27 +1,26 @@
 ﻿using BossIntegration;
-using BossPackReborn.Bosses;
+using BTD_Mod_Helper.Api.Bloons;
 using HarmonyLib;
 using Il2Cpp;
 using Il2CppAssets.Scripts.Simulation.Bloons;
-using Il2CppAssets.Scripts.Simulation.Bloons.Behaviors;
 using Il2CppAssets.Scripts.Simulation.Towers;
 using Il2CppAssets.Scripts.Simulation.Towers.Projectiles;
 
-namespace BossPackReborn.Patches.Bloons;
+namespace BossIntegration.Patches.Bloons;
 
 [HarmonyPatch(typeof(Bloon), nameof(Bloon.Damage))]
 internal class Bloon_Damage
 {
-    [HarmonyPrefix]
-    internal static bool Prefix(Bloon __instance, float totalAmount, Projectile projectile,
+    [HarmonyPostfix]
+    internal static void Postfix(Bloon __instance, float totalAmount, Projectile projectile,
         bool distributeToChildren, bool overrideDistributeBlocker, bool createEffect,
         Tower tower, BloonProperties immuneBloonProperties,
         bool canDestroyProjectile = true, bool ignoreNonTargetable = false,
         bool blockSpawnChildren = false, bool ignoreInvunerable = false)
     {
-        bool result = true;
-
-
-        return result;
+        if (ModBoss.Cache.TryGetValue(__instance.bloonModel.id, out var boss))
+        {
+            boss.OnDamageMandatory(__instance, totalAmount);
+        }
     }
 }
